@@ -6,9 +6,20 @@ import { Button, Paper } from '@mui/material';
 const Students = ({students, setStudents}) => { 
 
 const navigate = useNavigate()
-    const deleteStudent = (studentId)=>{
-      const removedStudent = students.filter(student=>student.id !== studentId);
-      setStudents(removedStudent)
+    const deleteStudent = async (studentId)=>{
+      try {
+        const res = await fetch(`https://64717ed46a9370d5a41a611f.mockapi.io/students/${studentId}`, {
+          method:"DELETE"
+        });
+        const data = await res.json()
+        console.log(data)
+
+          const removedStudent = students.filter(student=>student.id !== studentId);
+          setStudents(removedStudent)
+        
+      } catch (error) {
+        console.log(error)
+      }
     }
 
   return (

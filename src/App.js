@@ -1,8 +1,7 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Students from './Components/Students';
-import { data } from './Data/data';
 import {Route, Routes } from 'react-router-dom';
 import Dashboard from './Components/Dashboard';
 import AddStudents from './Components/AddStudents';
@@ -10,7 +9,18 @@ import EditStudents from './Components/EditStudents';
 import Nopage from './Components/Nopage';
 
 function App() {
-  const [students, setStudents] = useState(data);
+  const [students, setStudents] = useState([]);
+  useEffect(()=>{
+    const getStudentDetails = async()=>{
+      const res = await fetch(`https://64717ed46a9370d5a41a611f.mockapi.io/students`, {
+        method: "GET",
+      }); 
+      const data = await res.json();
+      setStudents(data);
+    }
+    getStudentDetails()
+  }, [])
+  
   return (
     <div className="App">
       <Routes>
