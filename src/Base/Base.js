@@ -39,6 +39,16 @@ const navigate = useNavigate()
     sx={{ mr: 2 }}>  
      Add-student
     </IconButton>
+
+    <IconButton 
+    edge="end" 
+    color="inherit" 
+    aria-label="add students" 
+    onClick={()=>navigate("/login")}
+    sx={{ mr: 2 }}>  
+     Login
+    </IconButton>
+
   </Toolbar>
 </AppBar>
         </nav>

@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Base from '../Base/Base'
 import { useNavigate } from 'react-router-dom';
 import { Button, Paper } from '@mui/material';
 
 const Students = ({students, setStudents}) => { 
+  const navigate = useNavigate()
+  useEffect(()=>{
+   if(!localStorage.getItem("token")){
+      navigate("/login", {replace:true})
+   }
+  })
 
-const navigate = useNavigate()
     const deleteStudent = async (studentId)=>{
       try {
         const res = await fetch(`https://64717ed46a9370d5a41a611f.mockapi.io/students/${studentId}`, {

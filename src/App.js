@@ -2,23 +2,33 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import Students from './Components/Students';
-import {Route, Routes } from 'react-router-dom';
+import {Route, Routes, useNavigate } from 'react-router-dom';
 import Dashboard from './Components/Dashboard';
 import AddStudents from './Components/AddStudents';
 import EditStudents from './Components/EditStudents';
 import Nopage from './Components/Nopage';
+import LoginPage from './Components/LoginPage';
 
 function App() {
   const [students, setStudents] = useState([]);
+  const navigate = useNavigate()
   useEffect(()=>{
     const getStudentDetails = async()=>{
-      const res = await fetch(`https://64717ed46a9370d5a41a611f.mockapi.io/students`, {
+      const res = await fetch(`https://students-backend-mu.vercel.app/students/all`, {
         method: "GET",
+        headers : {
+          "x-auth-token" : localStorage.getItem("token")
+        }
       }); 
       const data = await res.json();
-      setStudents(data);
+      setStudents(data.data)
     }
-    getStudentDetails()
+    if(!localStorage.getItem("token")){
+      navigate("/login")
+    }else {
+      getStudentDetails()
+    }
+
   }, [])
   
   return (
@@ -45,6 +55,11 @@ function App() {
              students={students}
             setStudents={setStudents}
          />}
+         />
+
+<       Route
+         path="/login"
+         element ={<LoginPage/>}
          />
       
        <Route
